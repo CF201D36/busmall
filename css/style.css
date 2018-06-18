@@ -1,0 +1,14 @@
+/*
+Theme Name:     Bus Mall Stylesheet
+Description:    A CSS stylesheet created for the Code Fellows 201d36 Bus Mall project
+Author:         Ben Harris
+Author URI:     http://www.harrishills.com
+Tags:           Code Fellows, 201, Practice, Lab, Website
+*/
+
+/* Default Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
