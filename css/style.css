@@ -112,7 +112,7 @@ main {
   width: 960px;
   height: 600px;
   margin: 0 auto;
-  margin-bottom: 150px;
+  margin-bottom: 50px;
   margin-top: 75px;
   /* outline: 4px dashed blue; */
 }
@@ -168,11 +168,15 @@ ul.img li {
   display: inline-block;
   border: 1px solid #ddd;
   cursor: pointer;
-  background: none;
+  background-color: #fff;
   /* outline: 4px dashed teal; */
 }
 ul.img li:last-child {
   margin-right: 0;
+}
+ul.img li img {
+  width: 225px;
+  height: 225px;
 }
 ul.img-input li {
   display: inline-block;
