@@ -6,10 +6,221 @@ Author URI:     http://www.harrishills.com
 Tags:           Code Fellows, 201, Practice, Lab, Website
 */
 
-/* Default Styles */
-* {
+/******** Default Styles ********/
+html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Lato', 'Arial', serif;
+  font-size: 16px;
+}
+body a:link    { color: #ffffff; text-decoration: none; }
+body a:visited { color: rgb(255, 255, 255); text-decoration: none; }
+body a:hover   { color: rgb(61, 175, 252); text-decoration: none; }
+body a:active  { color: rgb(255, 177, 31); text-decoration: none; }
+b { font-weight: bold; }
+span { 
+  font-weight: bold; 
+  color: rgb(22, 138, 214);
+}
+
+/******** Header & Ad Styles ********/
+header {
+  height: 115px;
+  width: 100%;
+  margin-bottom: 50px;
+  background-color: #444;
+}
+.banner { 
+  height: 40px;
+  background-color: #000;
+  color: #fff;
+}
+.banner p {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 13px;
+  margin-left: 50px;
+  /* position: fixed; */
+}
+.banner p:last-child {
+  float: right;
+  margin-right: 50px;
+}
+
+/******** Navbar Styles ********/
+nav {
+  height: 100px;
+  width: 960px;
+  margin: 0 auto;
+}
+.logo {
+  float: left;
+  margin-top: 25px;
+  margin-left: 25px;
+}
+.logo-box {
+  float: left;
+  width: 100px;
+	height: 100px;
+	background: rgb(22, 138, 214);
+}
+.logo h1 {
+  float: left;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 15px;
+  text-align: left;
+  text-emphasis: bold;
+  text-transform: uppercase;
+  color: white;
+  position: relative;
+  right: 105px;
+  top: 8px;
+}
+nav ul {
+  width: 700px;
+  margin-top: 15px;
+  float: right;
+  text-align: right;
+  color: white;
+}
+nav li {
+  display: inline-block;
+  margin-top: 20px; 
+  font-weight: bold;
+  padding: 10px 25px;
+}
+nav li:last-child {
+  padding-right: 0;
+}
+nav li.current {
+  color: rgb(61, 175, 252); text-decoration: none;
+}
+
+/******** Main Styles ********/
+main {
+  clear: left;
+  width: 960px;
+  height: 600px;
+  margin: 0 auto;
+  margin-bottom: 150px;
+  margin-top: 75px;
+  /* outline: 4px dashed blue; */
+}
+main h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+main p {
+  margin-bottom: 25px;
+  color: #888;
+}
+
+/******** List Styles ********/
+.sidebar {
+  float: left;
+  width: 240px;
+  height: 525px;
+  /* outline: 4px dashed purple; */
+}
+.list {
+  float: left;
+  width: 220px;
+  height: 500px;
+  border: 1px solid #ddd;
+  /* outline: 4px dashed green; */
+}
+.list h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 15px 0 25px 15px;
+}
+.list li {
+  margin: 0 0 0 18px;
+  list-style: square inside;
+}
+
+/******** ImgReel Styles ********/
+.imgreel {
+  float: left;
+  width: 720px;
+  height: 300px;
+  /* margin-bottom: 25px; */
+  /* outline: 4px dashed orange; */
+}
+ul.img {
+  float: left;
+  /* outline: 4px dashed magenta; */
+}
+ul.img li {
+  width: 225px;
+  height: 225px;
+  margin: 0 15px 0 0;
+  display: inline-block;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  /* outline: 4px dashed teal; */
+}
+ul.img li:last-child {
+  margin-right: 0;
+}
+ul.img-input li {
+  display: inline-block;
+  width: 225px;
+  margin: 25px 15px 0 0;
+  text-align: center;
+}
+ul.img-input li:last-child {
+  margin-right: 0;
+}
+
+/******** Vote Styles ********/
+.vote {
+  float: left;
+  width: 75%;
+  height: 50px;
+  margin-bottom: 25px;
+  text-align: center;
+  /* outline: 4px dashed aqua; */
+}
+.vote button {
+  border: none;
+  padding: 15px 80px;
+  background-color: rgb(22, 138, 214);
+  color: white;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+}
+
+/******** Text Styles ********/
+.text {
+  float: left;
+  width: 75%;
+  height: 125px;
+  line-height: 22px;
+  margin-bottom: 25px;
+  /* outline: 4px dashed mediumaquamarine; */
+}
+
+/******** Footer Styles ********/
+footer {
+  background-color: #444;
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  /* outline: 4px dashed red; */
+  
+}
+footer p {
+  width: 960px;
+  margin: 0 auto;
+  padding-top: 15px;
+  color: white;
+  text-align: center;
+  /* outline: 4px dashed red; */
 }

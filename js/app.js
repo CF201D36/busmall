@@ -23,3 +23,10 @@
 // Safety Goggles ON!
 'use strict';
 
+// // Test HTML5 API capabilities:
+// if (window.File && window.FileReader && window.FileList && window.Blob) {
+//   console.log('YES! This API is supported.');
+// } else {
+//   console.log('Sorry, this API is not supported');
+// }
+
