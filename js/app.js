@@ -23,10 +23,16 @@
 // Safety Goggles ON!
 'use strict';
 
-// // Test HTML5 API capabilities:
-// if (window.File && window.FileReader && window.FileList && window.Blob) {
-//   console.log('YES! This API is supported.');
-// } else {
-//   console.log('Sorry, this API is not supported');
-// }
+// var myImages = [
+//   '../img/bag.jpg'
+// ];
+
+// var img1 = document.getElementById('img1');
+// var img2 = document.getElementById('img2');
+// var img3 = document.getElementById('img3');
+
+// var loadImage1 = document.createElement('img');
+// loadImage1.textContent = myImages[0];
+// img1.appendChild(loadImage1);
+
 

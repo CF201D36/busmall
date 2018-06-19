@@ -161,6 +161,7 @@ ul.img li {
   display: inline-block;
   border: 1px solid #ddd;
   cursor: pointer;
+  background: none;
   /* outline: 4px dashed teal; */
 }
 ul.img li:last-child {
