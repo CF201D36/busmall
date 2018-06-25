@@ -162,7 +162,7 @@ main p {
   border: 1px solid #ddd;
   /* outline: 4px dashed green; */
 }
-.list h2 {
+thead {
   font-size: 18px;
   font-weight: bold;
   margin: 15px 0 25px 15px;
@@ -171,7 +171,13 @@ main p {
   margin: 0 0 0 18px;
   list-style: square inside;
 }
+.list th {
 
+}
+.list td {
+  color: #888;
+  
+}
 /******** ImgReel Styles ********/
 .imgreel {
   float: left;

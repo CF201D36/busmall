@@ -41,13 +41,22 @@
       <p>Choose your favorite products below! You have <span id="myCount">25</span> votes remaining!</p>
       <form class="display" id="displayCount">
         <label for="img-draw">Display:</label>
-        <input name="img-draw" type="number" step="1" value="3" min="3" max="9">
+        <input name="img-draw" type="number" step="3" value="6" min="3" max="9">
       </form>
       
       <div class="sidebar">
         <div class="list">
-          <h2>Results:</h2>
-          <ul id="genList"></ul>
+          <table id="genList">
+            <thead>
+              <tr>
+                <th>Img</th>
+                <th>Disp.</th>
+                <th>Voted</th>
+              </tr>
+          </thead>
+          <tbody id="tableContent"></tbody>
+          <tfoot></tfoot>
+          </table>
         </div>
       </div>
 

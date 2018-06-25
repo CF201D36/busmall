@@ -17,8 +17,9 @@
 var myGlobals = {
   imgReel: document.getElementById('genImgReel'),
   displayCount: document.getElementById('displayCount'),
+  listResults: document.getElementById('genList'),
   voteCount: 25,
-  imgDisplay: 0,
+  imgDisplay: 6,
   myImages: [],
   imgQueue: [],
   // imgSelection: [],
@@ -28,11 +29,12 @@ var myGlobals = {
 // OBJECTS
 // ------------------------------------------------------------------------------------------------------------
 // Object constructor for new images
-function myImg (filename, friendlyname, votesReceived, timesDisplayed) {
+function myImg (filename, friendlyname, votesReceived, timesDisplayed, hasBeenDisplayed) {
   this.filename = filename;
   this.friendlyname = friendlyname;
   this.votesReceived = votesReceived;
   this.timesDisplayed = timesDisplayed;
+  this.hasBeenDisplayed = hasBeenDisplayed;
 
   // Store a reference to each new instance in a global 'myImages' array
   myGlobals.myImages.push(this);
@@ -46,29 +48,26 @@ function myImg (filename, friendlyname, votesReceived, timesDisplayed) {
 // OPERATIONS
 // ------------------------------------------------------------------------------------------------------------
 // Create image objects
-new myImg ('bag.jpg',         'R2D2 Suitcase',                  0,0);   // eslint-disable-line
-new myImg ('banana.jpg',      'Banana Slicer',                  0,0);   // eslint-disable-line
-new myImg ('bathroom.jpg',    'Bathroom Tablet Stand',          0,0);   // eslint-disable-line
-new myImg ('boots.jpg',       'Open-Toe Rain boots',            0,0);   // eslint-disable-line
-new myImg ('breakfast.jpg',   'All-in-One Breakfast Maker',     0,0);   // eslint-disable-line
-new myImg ('bubblegum.jpg',   'Meatball Flavored Gum',          0,0);   // eslint-disable-line
-new myImg ('chair.jpg',       'Rounded Chair',                  0,0);   // eslint-disable-line
-new myImg ('cthulhu.jpg',     'Cthulhu Action Figure',          0,0);   // eslint-disable-line
-new myImg ('dog-duck.jpg',    'Dog-to-Duck Converter',          0,0);   // eslint-disable-line
-new myImg ('dragon.jpg',      'Dragon Meat',                    0,0);   // eslint-disable-line
-new myImg ('pen.jpg',         'Silverware Pens',                0,0);   // eslint-disable-line
-new myImg ('pet-sweep.jpg',   'Pet Sweep',                      0,0);   // eslint-disable-line
-new myImg ('scissors.jpg',    'Pizza Scissors',                 0,0);   // eslint-disable-line
-new myImg ('shark.jpg',       'Shark Sleeping Bag',             0,0);   // eslint-disable-line
-new myImg ('sweep.png',       'Baby Broom Outfit',              0,0);   // eslint-disable-line
-new myImg ('tauntaun.jpg',    'Taun-Taun Sleeping Bag',         0,0);   // eslint-disable-line
-new myImg ('unicorn.jpg',     'Unicorn Meat',                   0,0);   // eslint-disable-line
-new myImg ('usb.gif',         'Tentacle USB Drive',             0,0);   // eslint-disable-line
-new myImg ('water-can.jpg',   'Self Watering Can',              0,0);   // eslint-disable-line
-new myImg ('wine-glass.jpg',  'Death Star Wine Glass',          0,0);   // eslint-disable-line
-
-// Set the total number of images to be displayed
-myGlobals.imgDisplay = 3;
+new myImg ('bag.jpg',         'R2D2 Suitcase',                  0,0, false);   // eslint-disable-line
+new myImg ('banana.jpg',      'Banana Slicer',                  0,0, false);   // eslint-disable-line
+new myImg ('bathroom.jpg',    'Bathroom Tablet Stand',          0,0, false);   // eslint-disable-line
+new myImg ('boots.jpg',       'Open-Toe Rain boots',            0,0, false);   // eslint-disable-line
+new myImg ('breakfast.jpg',   'All-in-One Breakfast Maker',     0,0, false);   // eslint-disable-line
+new myImg ('bubblegum.jpg',   'Meatball Flavored Gum',          0,0, false);   // eslint-disable-line
+new myImg ('chair.jpg',       'Rounded Chair',                  0,0, false);   // eslint-disable-line
+new myImg ('cthulhu.jpg',     'Cthulhu Action Figure',          0,0, false);   // eslint-disable-line
+new myImg ('dog-duck.jpg',    'Dog-to-Duck Converter',          0,0, false);   // eslint-disable-line
+new myImg ('dragon.jpg',      'Dragon Meat',                    0,0, false);   // eslint-disable-line
+new myImg ('pen.jpg',         'Silverware Pens',                0,0, false);   // eslint-disable-line
+new myImg ('pet-sweep.jpg',   'Pet Sweep',                      0,0, false);   // eslint-disable-line
+new myImg ('scissors.jpg',    'Pizza Scissors',                 0,0, false);   // eslint-disable-line
+new myImg ('shark.jpg',       'Shark Sleeping Bag',             0,0, false);   // eslint-disable-line
+new myImg ('sweep.png',       'Baby Broom Outfit',              0,0, false);   // eslint-disable-line
+new myImg ('tauntaun.jpg',    'Taun-Taun Sleeping Bag',         0,0, false);   // eslint-disable-line
+new myImg ('unicorn.jpg',     'Unicorn Meat',                   0,0, false);   // eslint-disable-line
+new myImg ('usb.gif',         'Tentacle USB Drive',             0,0, false);   // eslint-disable-line
+new myImg ('water-can.jpg',   'Self Watering Can',              0,0, false);   // eslint-disable-line
+new myImg ('wine-glass.jpg',  'Death Star Wine Glass',          0,0, false);   // eslint-disable-line
 
 // Define and render the initial image selection
 imageGenerator();
@@ -80,6 +79,7 @@ imageGenerator();
 reloadImgSet();
 
 // Render List
+renderTable();
 
 // Render Chart
 
@@ -92,7 +92,55 @@ myGlobals.imgReel.addEventListener('click', imageRefresher); // Refresh image se
 
 
 // ------------------------------------------------------------------------------------------------------------
-// FUNCTIONS
+// PRIMARY FUNCTIONS
+// ------------------------------------------------------------------------------------------------------------
+function imageRender(imgIndex) {
+  var imgTarget = document.getElementById('imgGen');
+
+  // Create <li> element
+  var liEl = document.createElement('li');
+  var imgEl = document.createElement('img');
+
+  // Add content
+  imgEl.src = 'img/' + myGlobals.myImages[imgIndex].filename;
+  imgEl.name = imgIndex;
+  imgEl.id = 'img'+imgIndex;
+  console.log(imgEl);
+
+  // Append elements
+  liEl.appendChild(imgEl);
+  imgTarget.appendChild(liEl);
+
+  // Add current image object to imgQueue array
+  myGlobals.imgQueue.push(myGlobals.myImages[imgIndex]);
+
+  // Remove current image object from myImages array
+  myGlobals.myImages.splice(imgIndex, 1);
+}
+
+function renderTable() {
+  for(var myObjIndex = 0; myObjIndex < myGlobals.myImages.length; myObjIndex++) {
+    var tableSection = document.getElementById('tableContent');
+    var tableRow = document.createElement('tr');
+
+    // Setup table content
+    var tDataImg  = document.createElement('td');
+    tDataImg.textContent = myGlobals.myImages[myObjIndex].filename;
+    var tDataDisp = document.createElement('td');
+    tDataImg.textContent = myGlobals.myImages[myObjIndex].displayCount;
+    var tDataVote = document.createElement('td');
+    tDataImg.textContent = myGlobals.myImages[myObjIndex].voteCount;
+
+    // Append table content
+    tableRow.appendChild(tDataImg);
+    tableRow.appendChild(tDataDisp);
+    tableRow.appendChild(tDataVote);
+    tableSection.appendChild(tableRow);
+  }
+}
+
+// ------------------------------------------------------------------------------------------------------------
+// SUPPORTING FUNCTIONS
 // ------------------------------------------------------------------------------------------------------------
 function updateDisplay() {
   myGlobals.imgDisplay = myGlobals.displayCount.Value;
@@ -101,7 +149,6 @@ function updateDisplay() {
 }
 
 function imageRefresher() {
-  
   clearNode('imgGen');
   imageGenerator();
 }
@@ -121,46 +168,10 @@ function randomImg() {
   return randomIndex;
 }
 
-function imageRender(imgIndex) {
-  var imgTarget = document.getElementById('imgGen');
-
-  // Create <li> element
-  var liEl = document.createElement('li');
-  var imgEl = document.createElement('img');
-
-  // Add content
-  imgEl.src = 'img/' + myGlobals.myImages[imgIndex].filename;
-  imgEl.name = imgIndex;
-  imgEl.id = 'img'+imgIndex;
-  console.log(imgEl);
-
-  // Append elements
-  liEl.appendChild(imgEl);
-  imgTarget.appendChild(liEl);
-
-  // Add current image object to imgQueue array
-  console.log(myGlobals.myImages[imgIndex]);
-  myGlobals.imgQueue.push(myGlobals.myImages[imgIndex]);
-
-  // Remove current image object from myImages array
-  myGlobals.myImages.splice(imgIndex, 1);
-}
-
-
-
-
 function clearNode(myId) {
   var node = document.getElementById(myId);
   while (node.hasChildNodes()) {
     node.removeChild(node.firstChild);
-  }
-}
-
-function voteCounter () {
-  if (myGlobals.voteCount > 0) {
-    myGlobals.voteCount--;
-    var counter = document.getElementById('myCount');
-    counter.textContent = myGlobals.voteCount;
   }
 }
 
@@ -169,5 +180,13 @@ function reloadImgSet () {
   while(myGlobals.imgQueue.length > 0) {
     var restoreImg = myGlobals.imgQueue.pop(myGlobals.imgQueue[0]);
     myGlobals.myImages.push(restoreImg); 
+  }
+}
+
+function voteCounter () {
+  if (myGlobals.voteCount > 0) {
+    myGlobals.voteCount--;
+    var counter = document.getElementById('myCount');
+    counter.textContent = myGlobals.voteCount;
   }
 }
