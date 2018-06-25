@@ -13,6 +13,9 @@
 // Safety Goggles ON!
 'use strict';
 
+// Libraries
+// var Chart = require('chart.js');
+
 // Global Variables
 var myGlobals = {
   imgReel: document.getElementById('genImgReel'),
@@ -20,7 +23,7 @@ var myGlobals = {
   listResults: document.getElementById('genList'),
   voteCount: 25,
   imgDisplay: 6,
-  myImages: [],
+  myImages: [], // stores a reference to all objects created
   imgQueue: [],
   // imgSelection: [],
 };
@@ -40,10 +43,6 @@ function myImg (filename, friendlyname, votesReceived, timesDisplayed, currentIm
   // Store a reference to each new instance in a global 'myImages' array
   myGlobals.myImages.push(this);
 }
-
-// ------------------------------------------------------------------------------------------------------------
-// METHODS
-// ------------------------------------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------------------------------
 // OPERATIONS
@@ -77,7 +76,6 @@ imageGenerator();
 // Store user votes to localStorage
 
 // Render List
-renderTable();
 
 // Render Chart
 
@@ -85,14 +83,17 @@ renderTable();
 
 // Event Listeners
 // myGlobals.displayCount.addEventListener('change', updateDisplay); // Update display count
+myGlobals.imgReel.addEventListener('click', castVote); // Refresh image selection
 myGlobals.imgReel.addEventListener('click', imageGenerator); // Refresh image selection
 myGlobals.imgReel.addEventListener('click', voteCounter); // Refresh image selection
-
-
 
 // ------------------------------------------------------------------------------------------------------------
 // PRIMARY FUNCTIONS
 // ------------------------------------------------------------------------------------------------------------
+function castVote() {
+
+}
+
 function imageGenerator() {
   // Clean slate!
   var imgSelection = [];
@@ -147,23 +148,62 @@ function imageRender(imgIndex) {
 }
 
 function renderTable() {
-  for(var myObjIndex = 0; myObjIndex < myGlobals.myImages.length; myObjIndex++) {
+  console.log('Rendering table...');
+
+  for(var index = 0; index < myGlobals.myImages.length; index++) {
+    // Identify Destinations
     var tableSection = document.getElementById('tableContent');
     var tableRow = document.createElement('tr');
+    var path = myGlobals.myImages[index];
 
-    // Setup table content
+    // Process Data (Filename)
     var tDataImg  = document.createElement('td');
-    tDataImg.textContent = myGlobals.myImages[myObjIndex].filename;
-    var tDataDisp = document.createElement('td');
-    tDataImg.textContent = myGlobals.myImages[myObjIndex].displayCount;
-    var tDataVote = document.createElement('td');
-    tDataImg.textContent = myGlobals.myImages[myObjIndex].voteCount;
-
-    // Append table content
+    tDataImg.textContent = path.filename;
     tableRow.appendChild(tDataImg);
+
+    // Process Data (Times Displayed)
+    var tDataDisp = document.createElement('td');
+    tDataImg.textContent = path.timesDisplayed;
     tableRow.appendChild(tDataDisp);
+
+    // Process Data (Votes Received)
+    var tDataVote = document.createElement('td');
+    tDataImg.textContent = path.votesReceived;
     tableRow.appendChild(tDataVote);
+
+    // Output to table
     tableSection.appendChild(tableRow);
+  }
+}
+
+function storeData() {
+  for(var index = 0; index < myGlobals.myImages.length; index++) {
+    var path = myGlobals.myImages[index];
+    var tempString = JSON.stringify(path);
+    localStorage.setItem('Image Data', );
+  }
+}
+
+function voteCounter () {
+  var counter = document.getElementById('myCount');
+  if (myGlobals.voteCount > 1) {
+    myGlobals.voteCount--;
+    counter.textContent = myGlobals.voteCount;
+
+  } else {
+    myGlobals.voteCount--;
+    counter.textContent = myGlobals.voteCount;
+    clearNode('genImgReel');
+
+    // Render Table
+    renderTable();
+
+    // Render Graph
+    // renderGraph();
+
+    // Cleanup
+    myGlobals.imgReel.removeEventListener('click', imageGenerator);
+    myGlobals.imgReel.removeEventListener('click', voteCounter);
   }
 }
 
@@ -190,13 +230,9 @@ function clearNode(myId) {
   }
 }
 
-function voteCounter () {
-  if (myGlobals.voteCount > 0) {
-    myGlobals.voteCount--;
-    var counter = document.getElementById('myCount');
-    counter.textContent = myGlobals.voteCount;
-  }
-}
+// function renderGraph () {
+//   newCanvas = document.getElementById('canvas');
+// }
 
 // function updateDisplay() {
 //   myGlobals.imgDisplay = myGlobals.displayCount.value;

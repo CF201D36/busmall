@@ -176,8 +176,16 @@ thead {
 }
 .list td {
   color: #888;
-  
+
 }
+
+/******** Visuals Section Styles ********/
+/* .visuals {
+  position: relative;
+  height: 700px;
+  outline: 4px dashed purple;
+} */
+
 /******** ImgReel Styles ********/
 .imgreel {
   float: left;
