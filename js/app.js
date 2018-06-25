@@ -29,11 +29,12 @@ var myGlobals = {
 // OBJECTS
 // ------------------------------------------------------------------------------------------------------------
 // Object constructor for new images
-function myImg (filename, friendlyname, votesReceived, timesDisplayed, hasBeenDisplayed) {
+function myImg (filename, friendlyname, votesReceived, timesDisplayed, currentImage, hasBeenDisplayed) {
   this.filename = filename;
   this.friendlyname = friendlyname;
   this.votesReceived = votesReceived;
   this.timesDisplayed = timesDisplayed;
+  this.currentImage = currentImage;
   this.hasBeenDisplayed = hasBeenDisplayed;
 
   // Store a reference to each new instance in a global 'myImages' array
@@ -48,35 +49,32 @@ function myImg (filename, friendlyname, votesReceived, timesDisplayed, hasBeenDi
 // OPERATIONS
 // ------------------------------------------------------------------------------------------------------------
 // Create image objects
-new myImg ('bag.jpg',         'R2D2 Suitcase',                  0,0, false);   // eslint-disable-line
-new myImg ('banana.jpg',      'Banana Slicer',                  0,0, false);   // eslint-disable-line
-new myImg ('bathroom.jpg',    'Bathroom Tablet Stand',          0,0, false);   // eslint-disable-line
-new myImg ('boots.jpg',       'Open-Toe Rain boots',            0,0, false);   // eslint-disable-line
-new myImg ('breakfast.jpg',   'All-in-One Breakfast Maker',     0,0, false);   // eslint-disable-line
-new myImg ('bubblegum.jpg',   'Meatball Flavored Gum',          0,0, false);   // eslint-disable-line
-new myImg ('chair.jpg',       'Rounded Chair',                  0,0, false);   // eslint-disable-line
-new myImg ('cthulhu.jpg',     'Cthulhu Action Figure',          0,0, false);   // eslint-disable-line
-new myImg ('dog-duck.jpg',    'Dog-to-Duck Converter',          0,0, false);   // eslint-disable-line
-new myImg ('dragon.jpg',      'Dragon Meat',                    0,0, false);   // eslint-disable-line
-new myImg ('pen.jpg',         'Silverware Pens',                0,0, false);   // eslint-disable-line
-new myImg ('pet-sweep.jpg',   'Pet Sweep',                      0,0, false);   // eslint-disable-line
-new myImg ('scissors.jpg',    'Pizza Scissors',                 0,0, false);   // eslint-disable-line
-new myImg ('shark.jpg',       'Shark Sleeping Bag',             0,0, false);   // eslint-disable-line
-new myImg ('sweep.png',       'Baby Broom Outfit',              0,0, false);   // eslint-disable-line
-new myImg ('tauntaun.jpg',    'Taun-Taun Sleeping Bag',         0,0, false);   // eslint-disable-line
-new myImg ('unicorn.jpg',     'Unicorn Meat',                   0,0, false);   // eslint-disable-line
-new myImg ('usb.gif',         'Tentacle USB Drive',             0,0, false);   // eslint-disable-line
-new myImg ('water-can.jpg',   'Self Watering Can',              0,0, false);   // eslint-disable-line
-new myImg ('wine-glass.jpg',  'Death Star Wine Glass',          0,0, false);   // eslint-disable-line
+new myImg ('bag.jpg',         'R2D2 Suitcase',                  0,0, false, false);   // eslint-disable-line
+new myImg ('banana.jpg',      'Banana Slicer',                  0,0, false, false);   // eslint-disable-line
+new myImg ('bathroom.jpg',    'Bathroom Tablet Stand',          0,0, false, false);   // eslint-disable-line
+new myImg ('boots.jpg',       'Open-Toe Rain boots',            0,0, false, false);   // eslint-disable-line
+new myImg ('breakfast.jpg',   'All-in-One Breakfast Maker',     0,0, false, false);   // eslint-disable-line
+new myImg ('bubblegum.jpg',   'Meatball Flavored Gum',          0,0, false, false);   // eslint-disable-line
+new myImg ('chair.jpg',       'Rounded Chair',                  0,0, false, false);   // eslint-disable-line
+new myImg ('cthulhu.jpg',     'Cthulhu Action Figure',          0,0, false, false);   // eslint-disable-line
+new myImg ('dog-duck.jpg',    'Dog-to-Duck Converter',          0,0, false, false);   // eslint-disable-line
+new myImg ('dragon.jpg',      'Dragon Meat',                    0,0, false, false);   // eslint-disable-line
+new myImg ('pen.jpg',         'Silverware Pens',                0,0, false, false);   // eslint-disable-line
+new myImg ('pet-sweep.jpg',   'Pet Sweep',                      0,0, false, false);   // eslint-disable-line
+new myImg ('scissors.jpg',    'Pizza Scissors',                 0,0, false, false);   // eslint-disable-line
+new myImg ('shark.jpg',       'Shark Sleeping Bag',             0,0, false, false);   // eslint-disable-line
+new myImg ('sweep.png',       'Baby Broom Outfit',              0,0, false, false);   // eslint-disable-line
+new myImg ('tauntaun.jpg',    'Taun-Taun Sleeping Bag',         0,0, false, false);   // eslint-disable-line
+new myImg ('unicorn.jpg',     'Unicorn Meat',                   0,0, false, false);   // eslint-disable-line
+new myImg ('usb.gif',         'Tentacle USB Drive',             0,0, false, false);   // eslint-disable-line
+new myImg ('water-can.jpg',   'Self Watering Can',              0,0, false, false);   // eslint-disable-line
+new myImg ('wine-glass.jpg',  'Death Star Wine Glass',          0,0, false, false);   // eslint-disable-line
 
 // Define and render the initial image selection
 imageGenerator();
 
 
 // Store user votes to localStorage
-
-// Restore images from imgQueue array into myImages array
-reloadImgSet();
 
 // Render List
 renderTable();
@@ -86,14 +84,50 @@ renderTable();
 // Add to localStorage
 
 // Event Listeners
-myGlobals.displayCount.addEventListener('click', updateDisplay); // Update display count
-myGlobals.imgReel.addEventListener('click', imageRefresher); // Refresh image selection
-myGlobals.imgReel.addEventListener('click', imageRefresher); // Refresh image selection
+// myGlobals.displayCount.addEventListener('change', updateDisplay); // Update display count
+myGlobals.imgReel.addEventListener('click', imageGenerator); // Refresh image selection
+myGlobals.imgReel.addEventListener('click', voteCounter); // Refresh image selection
+
 
 
 // ------------------------------------------------------------------------------------------------------------
 // PRIMARY FUNCTIONS
 // ------------------------------------------------------------------------------------------------------------
+function imageGenerator() {
+  // Clean slate!
+  var imgSelection = [];
+  clearNode('imgGen');
+
+  // Generate Selection (sets CURRENT image)
+  for (var imgCount = 0; imgCount < myGlobals.imgDisplay; imgCount++) {
+    imgSelection.push(randomImg());
+  }
+
+  // Render Selection to DOM (no modifiers)
+  for (var imgSelect = 0; imgSelect < imgSelection.length; imgSelect++) {
+    imageRender(imgSelection[imgSelect]);
+  }
+
+  // Update remaining image modifiers
+  for (var selection = 0; selection < myGlobals.myImages.length; selection++) {
+
+    if (myGlobals.myImages[selection].currentImage === true && myGlobals.myImages[selection].hasBeenDisplayed === true) {
+      console.log('ERROR:' + selection + '\n' + 'current: ' + myGlobals.myImages[selection].currentImage + '\n' + 'Displayed: ' + myGlobals.myImages[selection].hasBeenDisplayed);
+    }
+
+    // If previously remembered and NOT the current image...
+    if (myGlobals.myImages[selection].hasBeenDisplayed === true && myGlobals.myImages[selection].currentImage === false) {
+      myGlobals.myImages[selection].hasBeenDisplayed = false;
+    }
+
+    // If the current image...remember it!
+    if (myGlobals.myImages[selection].currentImage === true) {
+      myGlobals.myImages[selection].hasBeenDisplayed = true;
+      myGlobals.myImages[selection].currentImage = false;
+    }
+  }
+}
+
 function imageRender(imgIndex) {
   var imgTarget = document.getElementById('imgGen');
 
@@ -105,17 +139,11 @@ function imageRender(imgIndex) {
   imgEl.src = 'img/' + myGlobals.myImages[imgIndex].filename;
   imgEl.name = imgIndex;
   imgEl.id = 'img'+imgIndex;
-  console.log(imgEl);
+  // console.log(imgEl);
 
   // Append elements
   liEl.appendChild(imgEl);
   imgTarget.appendChild(liEl);
-
-  // Add current image object to imgQueue array
-  myGlobals.imgQueue.push(myGlobals.myImages[imgIndex]);
-
-  // Remove current image object from myImages array
-  myGlobals.myImages.splice(imgIndex, 1);
 }
 
 function renderTable() {
@@ -142,29 +170,16 @@ function renderTable() {
 // ------------------------------------------------------------------------------------------------------------
 // SUPPORTING FUNCTIONS
 // ------------------------------------------------------------------------------------------------------------
-function updateDisplay() {
-  myGlobals.imgDisplay = myGlobals.displayCount.Value;
-  clearNode('imgGen');
-  imageGenerator();
-}
-
-function imageRefresher() {
-  clearNode('imgGen');
-  imageGenerator();
-}
-
-function imageGenerator() {
-  for (var imgCount = 0; imgCount < myGlobals.imgDisplay; imgCount++) {
-    console.log(imgCount);
-    var imgSelection = randomImg();
-    imageRender(imgSelection);
-  }
-}
-
 function randomImg() {
-  var randomIndex = myGlobals.myImages[Math.floor(Math.random() * myGlobals.myImages.length)];
-  randomIndex = myGlobals.myImages.indexOf(randomIndex);
-  // console.log(randomIndex);
+  var randomIndex = NaN;
+  do {
+    randomIndex = myGlobals.myImages[Math.floor(Math.random() * myGlobals.myImages.length)];
+    randomIndex = myGlobals.myImages.indexOf(randomIndex);
+  } while (myGlobals.myImages[randomIndex].hasBeenDisplayed === true || myGlobals.myImages[randomIndex].currentImage === true); // returns only a previously unused image
+
+  // Update selection modifiers
+  myGlobals.myImages[randomIndex].timesDisplayed++;
+  myGlobals.myImages[randomIndex].currentImage = true;
   return randomIndex;
 }
 
@@ -175,14 +190,6 @@ function clearNode(myId) {
   }
 }
 
-function reloadImgSet () {
-  console.log('Funciton ran!');
-  while(myGlobals.imgQueue.length > 0) {
-    var restoreImg = myGlobals.imgQueue.pop(myGlobals.imgQueue[0]);
-    myGlobals.myImages.push(restoreImg); 
-  }
-}
-
 function voteCounter () {
   if (myGlobals.voteCount > 0) {
     myGlobals.voteCount--;
@@ -190,3 +197,8 @@ function voteCounter () {
     counter.textContent = myGlobals.voteCount;
   }
 }
+
+// function updateDisplay() {
+//   myGlobals.imgDisplay = myGlobals.displayCount.value;
+//   imageGenerator();
+// }
