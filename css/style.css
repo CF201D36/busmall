@@ -108,34 +108,57 @@ nav li.current {
   margin-bottom: -50px;
 }
 main {
+  clear: both;
+  position: relative;
   clear: left;
   width: 960px;
-  height: 600px;
+  height: 100px;
   margin: 0 auto;
   margin-bottom: 50px;
   margin-top: 75px;
   /* outline: 4px dashed blue; */
 }
 main h1 {
+  position: relative;
   font-size: 24px;
   margin-bottom: 5px;
 }
 main p {
+  position: absolute;
   margin-bottom: 25px;
   color: #888;
+  /* outline: 4px dashed orange; */
+}
+
+/******** Display Form Styles ********/
+.display {
+  position: absolute;
+  color: #888;
+  left: 860px;
+  /* outline: 4px dashed purple; */
+}
+.display input {
+  border: none;
+  width: 30px;
+  font-size: 16px;
+  margin-left: 10px;
+  font-weight: bold; 
+  color: rgb(22, 138, 214);
 }
 
 /******** List Styles ********/
 .sidebar {
+  position: relative;
+  margin-top: 50px;
   float: left;
   width: 240px;
-  height: 525px;
+  height: 715px;
   /* outline: 4px dashed purple; */
 }
 .list {
   float: left;
   width: 220px;
-  height: 500px;
+  height: 715px;
   border: 1px solid #ddd;
   /* outline: 4px dashed green; */
 }
@@ -154,6 +177,8 @@ main p {
   float: left;
   width: 720px;
   height: 300px;
+  position: relative;
+  margin-top: 50px;
   /* margin-bottom: 25px; */
   /* outline: 4px dashed orange; */
 }
@@ -164,14 +189,14 @@ ul.img {
 ul.img li {
   width: 225px;
   height: 225px;
-  margin: 0 15px 0 0;
+  margin: 0 15px 15px 0;
   display: inline-block;
   border: 1px solid #ddd;
   cursor: pointer;
   background-color: #fff;
   /* outline: 4px dashed teal; */
 }
-ul.img li:last-child {
+ul.img li:nth-child(3n) {
   margin-right: 0;
 }
 ul.img li img {
@@ -182,13 +207,14 @@ ul.img li img {
   height: auto;
   /* outline: 4px dashed teal; */
 }
-ul.img-input li {
+ul.img-selector li {
   display: inline-block;
   width: 225px;
   margin: 25px 15px 0 0;
   text-align: center;
+  /* outline: 4px dashed teal; */
 }
-ul.img-input li:last-child {
+ul.img-selector li:last-child {
   margin-right: 0;
 }
 
